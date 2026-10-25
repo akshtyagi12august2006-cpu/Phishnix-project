@@ -9,3 +9,5 @@ scikit-learn==1.9.0
 urllib3==2.2.1
 whois==0.9.27
 gunicorn==23.0.0
+matplotlib==3.11.2
+seaborn==0.13.2
