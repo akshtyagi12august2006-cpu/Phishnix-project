@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>PHISHNIX - Advanced Phishing Detection Tool</title>
+  <meta content="PHISHNIX is an advanced phishing detection tool that helps protect you from online threats by analyzing URLs for potential phishing attacks." name="description">
+  <meta content="phishing detection, cybersecurity, url scanner, phishing protection, online security" name="keywords">
+
+  <!-- Favicons -->
+  <link href="static/assets/img/logo.png" rel="icon">
+  <link href="static/assets/img/logo.png" rel="apple-touch-icon">
+
+  <!-- Vendor CSS Files -->
+  <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/venobox/venobox.css" rel="stylesheet">
+  <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+  <!-- Template Main CSS File -->
+  <link href="static/style.css" rel="stylesheet">
+  
+  <!-- Enhanced CSS for improved design -->
+  <link href="static/enhanced-style.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+      
+      <div class="logo">
+        <a href="{{ url_for('home') }}">
+          <img src="static/assets/img/logo.png" alt="PHISHNIX Logo" class="logo-img">
+        </a>
+      </div>
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul>
+          <li class="active"><a href="#hero">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="{{ url_for('usecases') }}" target="_blank" rel="no-openner no-referrer">Usecases</a></li>
+        </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= New Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="hero-container">
+      <div class="hero-content" data-aos="fade-right">
+        <div class="hero-logo-title">
+          <div class="hero-logo">
+            <img src="static/assets/img/logo.png" alt="PHISHNIX Logo">
+          </div>
+          <h1 class="hero-title">PHISHNIX</h1>
+        </div>
+        <p class="hero-subtitle">Protect Yourself From Phishing Attacks</p>
+        <p class="hero-description">
+          PHISHNIX uses AI technology to detect and block phishing attempts to keep you safe online.
+        </p>
+
+        <div class="hero-form">
+          <form action="/result" method="POST" role="form" class="form" id="urlForm">
+            <input type="url" name="name" class="form-control" id="name" placeholder="Enter URL to scan" required>
+            <button type="submit" class="btn-primary">Scan URL</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="hero-visual" data-aos="fade-left">
+        <img src="static/assets/img/logo.png" alt="PHISHNIX Shield">
+      </div>
+    </div>
+    
+    <!-- Popup Modal -->
+    <div class="modal-overlay" id="resultModal" {% if name %}data-active="true"{% endif %}>
+      <div class="modal-content {% if name %}{% if name[3] %}safe{% else %}unsafe{% endif %}{% endif %}">
+        <span class="modal-close" id="closeModal">&times;</span>
+        {% if name %}
+        <div class="modal-icon">
+          <i class="bi {% if name[3] %}bi-shield-check{% else %}bi-shield-x{% endif %}"></i>
+        </div>
+        <h3 class="modal-title">Website is {{name[1]}} to use</h3>
+        <div class="modal-url">{{name[0]}}</div>
+        {% if name[3] %}
+        <button class="button1" onclick="window.open('{{name[0]}}')" target="_blank">{{name[2]}}</button>
+        {% else %}
+        <button class="button2" onclick="window.open('{{name[0]}}')" target="_blank">{{name[2]}}</button>
+        {% endif %}
+        {% endif %}
+      </div>
+    </div>
+    
+    <script>
+        // Show modal when page loads with result
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('resultModal');
+            if (modal && modal.dataset.active === 'true') {
+                modal.classList.add('active');
+            }
+            
+            // Close modal when clicking the close button
+            const closeModal = document.getElementById('closeModal');
+            if (closeModal) {
+                closeModal.addEventListener('click', function() {
+                    modal.classList.remove('active');
+                });
+            }
+            
+            // Close modal when clicking outside of it
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+  </section><!-- End Hero -->
+
+  <!-- ======= Features Section ======= -->
+  <section id="features" class="features">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <h2>Key Features</h2>
+        <p>Discover the powerful features that make PHISHNIX the ultimate phishing detection tool</p>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h3>Advanced Detection</h3>
+            <p>Our cutting-edge machine learning algorithms analyze URLs for phishing indicators with high accuracy.</p>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="bi bi-lightning-charge"></i>
+            </div>
+            <h3>Real-time Analysis</h3>
+            <p>Get instant results with our fast scanning technology that processes URLs in seconds.</p>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <h3>Detailed Reports</h3>
+            <p>Receive comprehensive reports explaining why a URL was flagged as safe or suspicious.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- End Features Section -->
+
+  <!-- ======= Frequently Asked Questions Section ======= -->
+  <section id="faq" class="faq">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <h2>Frequently Asked Questions</h2>
+        <p>Find answers to common questions about phishing and website security</p>
+      </div>
+
+      <div class="faq-list">
+        <ul>
+          <li data-aos="fade-up" data-aos="fade-up" data-aos-delay="100">
+            <i class="bi bi-question-circle"></i> <a data-toggle="collapse" class="collapse" href="#faq-list-1">What is phishing <i class="bi bi-chevron-down"></i><i class="bi bi-chevron-up"></i></a>
+            <div id="faq-list-1" class="collapse show" data-parent=".faq-list">
+              <p>
+                Phishing is a cybercrime in which a target or targets are contacted by email, telephone, or text message by someone posing as a legitimate institution to lure individuals into providing sensitive data such as personally identifiable information, banking and credit card details, and passwords.
+                OR 
+                Phishing is a cyber attack where the attacker tricks the target into disclosing personal information, revealing login credentials, or transferring money.
+              </p>
+            </div>
+          </li>
+
+          <li data-aos="fade-up" data-aos="fade-up" data-aos-delay="200">
+            <i class="bi bi-question-circle"></i> <a data-toggle="collapse" href="#faq-list-2" class="collapsed">Why should I bother Knowing what Phishing is all about <i class="bi bi-chevron-down"></i><i class="bi bi-chevron-up"></i></a>
+            <div id="faq-list-2" class="collapse" data-parent=".faq-list">
+              <p>
+                The purpose of phishing is to collect sensitive information with the intention of using that information to gain access to otherwise protected data, networks, etc. A phisher's success is contingent upon establishing trust with its victims. <br><br>
+                Successful Phishing attacks can: <br><br>
+                <i class='bi bi-check-circle-fill text-success'></i> Cause financial loss for victims <br><br>
+                <i class='bi bi-check-circle-fill text-success'></i> Put their personal information at risk <br><br>
+                <i class='bi bi-check-circle-fill text-success'></i> Put data and systems at risk
+              </p>
+            </div>
+          </li>    
+
+          <li data-aos="fade-up" data-aos="fade-up" data-aos-delay="200">
+            <i class="bi bi-question-circle"></i> <a data-toggle="collapse" href="#faq-list-3" class="collapsed">Two Major Types of Phishing Attack<i class="bi bi-chevron-down"></i><i class="bi bi-chevron-up"></i></a>
+            <div id="faq-list-3" class="collapse" data-parent=".faq-list">
+              <p>
+                <i class='bi bi-check-circle-fill text-primary'></i> <b> Deceptive Phishing:</b> Deceptive phishing is by far the most common type of phishing scam. In this ploy, fraudsters impersonate a legitimate company to steal people's personal data or login credentials. Those emails frequently use threats and a sense of urgency to scare users into doing what the attackers want. <br><br>
+                <i class='bi bi-check-circle-fill text-primary'></i> <b>Spear Phishing:</b> Spear Phishing targets specific individuals instead of a wide group of people. Attackers often research their victims on social media and other sites. That way, they can customize their communications and appear more authentic. <br><br>
+                <i class='bi bi-info-circle-fill text-info'></i> <b>Other phishing Technique</b> <i class='bi bi-arrow-down-circle-fill'></i><br><br>
+                <i class='bi bi-arrow-right-circle-fill'></i> <b>Angler Phishing:</b> This cyberattack comes by way of social media. It may involve fake URLs, instant messages or profiles used to obtain sensitive data. Attackers also peruse social profiles to glean any personal information they can use for social engineering. <br><br>
+                <i class='bi bi-arrow-right-circle-fill'></i> <b>Clone Phishing:</b> Clone phishing involves exact duplication of an email to make it appear as legitimate as possible.<br><br>
+                <i class='bi bi-arrow-right-circle-fill'></i> <b>Domain Spoofing:</b> In this category of phishing, the attacker forges a company domain, which makes the email appear to be from that company.<br><br>
+                <i class='bi bi-arrow-right-circle-fill'></i> <b>Email Phishing:</b> Phishing emails are often the first to come to mind when people hear the term phishing. Attackers send an illegitimate email asking for personal information or login credentials.<br><br>
+                <i class='bi bi-arrow-right-circle-fill'></i> <b>Search Engine Phishing:</b> Rather than sending correspondence to you to gain information, search engine fishing involves creating a website that mimics a legitimate site. Site visitors are asked to download products that are infected with malware or provide personal information in forms that go to the attacker.<br><br>
+                <i class='bi bi-arrow-right-circle-fill'></i> <b>Smishing:</b> Combine SMS with phishing and you have the technique called smishing. With smishing, attackers send fraudulent text messages in an attempt to gather information like credit card numbers or passwords.<br><br>
+                <i class='bi bi-arrow-right-circle-fill'></i> <b>Whaling:</b> A whaling attack targets the big fish, or executive-level employees. An attack of this sort often involves more sophisticated social engineering tactics and intelligence gathering to better sell the fake.<br><br>
+                <i class='bi bi-arrow-right-circle-fill'></i> <b>Vishing:</b> Combine VoIP with phishing and you get vishing. This type of phishing involves calls from a fraudulent person attempting to obtain sensitive information.<br><br>
+                <i class='bi bi-arrow-right-circle-fill'></i>  <b>Malvertising:</b> Malvertising is malicious advertising that contains active scripts designed to download malware or force unwanted content onto your computer. Exploits in Adobe PDF and Flash are the most common methods used in malvertisements<br><br>
+              </p>
+            </div>
+          </li>              
+          
+          <li data-aos="fade-up" data-aos="fade-up" data-aos-delay="200">
+            <i class="bi bi-question-circle"></i> <a data-toggle="collapse" href="#faq-list-4" class="collapsed">How to Prevent and Protect Against Phishing As An End-user<i class="bi bi-chevron-down"></i><i class="bi bi-chevron-up"></i></a>
+            <div id="faq-list-4" class="collapse" data-parent=".faq-list">
+              <p>
+                To help prevent phishing attacks, you should observe general best practices, similar to those you might undertake to avoid viruses and other malware. First, make sure your systems are updated to help protect against known vulnerabilities. Protect devices and systems with reputable security software and firewall protection. You can also add software that watches for PII being sent over email or other insecure methods.Since the weak link in phishing attacks is the end user, you should provide proper end-user security awareness training and educate your team on how to recognize a phishing scam. The key to protecting against phishing lies in the ability to recognize the cyberattack as illegitimate. Following are some key concepts to include in end-user training: <br><br>
+
+                <i class='bi bi-shield-check-fill text-success'></i> Users are to choose strong passwords and be wary of posting your personal details on social media. Information like birthdates, addresses and phone numbers are valuable to an attacker. <br><br>
+                <i class='bi bi-shield-check-fill text-success'></i> If there are any suspicions about an email or social post, contact the IT team to have them examine the situation. <br><br>
+                <i class='bi bi-shield-check-fill text-success'></i> Only open attachments from a trusted source. When in doubt, check with the alleged sender directly. <br><br>
+                <i class='bi bi-shield-check-fill text-success'></i> Note any language differences in messaging or emails that vary from legitimate organizational communications. <br><br>
+                <i class='bi bi-shield-check-fill text-success'></i> Never give away personal information in an email or unsolicited call. For instance, financial institutions will never call and ask for login credentials or account info because they already have it. <br><br>
+                <i class='bi bi-shield-check-fill text-success'></i> Inspect emails for typos and inaccurate grammar. This is usually a dead giveaway of less-sophisticated phishing scams. <br><br>
+                <i class='bi bi-shield-check-fill text-success'></i> Don't supply personal information via email or text. <br><br>
+                <i class='bi bi-shield-check-fill text-success'></i> Beware of urgent or time-sensitive warnings. Phishing attacks often prompt action by pretending to be urgent. <br><br>
+                <i class='bi bi-shield-check-fill text-success'></i> Verify emails and other correspondence by contacting the organization directly. If you think something is fishy (okay, bad pun), a phone call can quickly identify a legitimate call from a fake one. <br><br>
+
+              </p>
+            </div>
+          </li>              
+          
+          <li data-aos="fade-up" data-aos="fade-up" data-aos-delay="200">
+            <i class="bi bi-question-circle"></i> <a data-toggle="collapse" href="#faq-list-5" class="collapsed">How to Prevent and Protect Against Phishing As A Company<i class="bi bi-chevron-down"></i><i class="bi bi-chevron-up"></i></a>
+            <div id="faq-list-5" class="collapse" data-parent=".faq-list">
+              <p>
+                Since we can't control the criminals, let's take a look at how you can prevent phishing attacks. <br>
+
+                <i class='bi bi-building-fill text-primary'></i> <b>Train Your Employees</b> - Unsuspecting employees who are not trained to identify phishing emails are easily tricked. If they click on a link, open an attachment, or respond to the email, they could be giving the attacker exactly what they need to break into your system. Training is by far the most crucial action you can take to avoid phishing attacks. By investing in your employees' security education, you empower them to take ownership of security best practices. With training, your employees can identify a phishing email and report suspicious activity before any information is compromised. <br><br>
+                <i class='bi bi-shield-fill-check text-primary'></i> <b>Update Your Antivirus Software</b>- Keeping your antivirus software updated adds a layer of security. The software will scan files coming into your computer, preventing possible damage. Ensure that your anti-spyware and firewall settings are active.  <br><br>
+                <i class='bi bi-arrow-up-circle-fill text-primary'></i> <b>Stay Up-to-Date</b> - By staying in-the-know, you remain vigilant to phishing attempts. Research common phishing scams so that you're aware of what security professionals see as the main threats. The more aware you are of what's out there, the more likely you are to identify a possible attack.  <br><br>
+
+              </p>
+            </div>
+          </li>              
+
+        </ul>
+      </div>
+
+    </div>
+  </section><!-- End Frequently Asked Questions Section -->
+
+  <main id="main">    
+    <!-- ======= about Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="about-container">
+          <div class="section-title">
+            <h2>About PHISHNIX</h2>
+            <p>Advanced phishing detection technology protecting users worldwide</p>
+          </div>
+          <p>PHISHNIX is an advanced phishing detection tool designed to protect users from online threats. Our system uses cutting-edge machine learning algorithms to analyze URLs and identify potential phishing attacks with high accuracy. With the increasing number of cyber threats, PHISHNIX provides a crucial layer of security for everyday internet users.</p>
+          
+          <p>Our mission is to make the internet a safer place by empowering users with the tools they need to identify and avoid phishing attempts. Whether you're browsing, shopping, or banking online, PHISHNIX works silently in the background to keep you protected.</p>
+          
+          <h3>Meet Our Team</h3>
+          <div class="team">
+            <p>Project is developed by Final Year Students of B.Sc. Cyber Security at Chandigarh Group of Colleges, Mohali</p>
+            <div class="team-members">
+              <div class="team-member">
+                <i class="bi bi-person-circle"></i>
+                <b>Aryan</b>
+              </div>
+              <div class="team-member">
+                <i class="bi bi-person-circle"></i>
+                <b>Yashna</b>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+    </section><!-- End about Section -->
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="static/assets/img/logo.png" alt="PHISHNIX Logo" class="footer-logo-img">
+        <span>PHISHNIX</span>
+      </div>
+      <p>&copy; 2025 PHISHNIX | Created with <span class="heart">❤</span> by Aryan</p>
+      <div class="footer-social">
+        <a href="#"><i class="bi bi-facebook"></i></a>
+        <a href="#"><i class="bi bi-twitter"></i></a>
+        <a href="#"><i class="bi bi-linkedin"></i></a>
+        <a href="#"><i class="bi bi-github"></i></a>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+  <a href="#" class="back-to-top"><i class="bi bi-arrow-up"></i></a>
+  
+  <!-- Vendor JS Files -->
+  <script src="static/assets/vendor/jquery/jquery.min.js"></script>
+  <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+  <script src="static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="static/assets/vendor/venobox/venobox.min.js"></script>
+  <script src="static/assets/vendor/aos/aos.js"></script>
+  
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false
+    });
+    
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // Back to top button
+    const backToTop = document.querySelector('.back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTop.style.display = 'flex';
+      } else {
+        backToTop.style.display = 'none';
+      }
+    });
+    
+    backToTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Preloader
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      if (preloader) {
+        preloader.style.opacity = '0';
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 500);
+      }
+    });
+    
+    // Active navigation link on scroll
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('.nav-menu a');
+      
+      let current = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (pageYOffset >= sectionTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+
+  <!-- Template Main JS File -->
+  <script src="static/assets/js/main.js"></script>
+
+</body>
+
+</html>
