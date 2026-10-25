@@ -35,8 +35,8 @@ Follow these steps to get the project running on your local machine:
 1. **Clone the Repository**
 
 ```bash
-git clone https://github.com/iAryanbajaj/Phishnix1.2.git
-cd Phishnix1.2
+git clone https://github.com/akshtyagi12august2006-cpu/Phishnix-project.git
+cd Phishnix-project
 ```
 
 2. **Install Dependencies**
@@ -90,10 +90,9 @@ Phishnix/
 
 ---
 
-## 👥 Contributors
+## 👥 Contributor
 
-* **Aryan Bajaj** – [iAryanbajaj](https://github.com/iAryanbajaj)
-* **Yashna Chugh** – [Yashna Chugh](https://github.com/YASHNACHUGH2408)
+* **Aksh Tyagi** – [akshtyagi12august2006-cpu](https://github.com/akshtyagi12august2006-cpu)
 
 ---
 
